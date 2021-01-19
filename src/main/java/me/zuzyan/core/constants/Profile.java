@@ -10,6 +10,7 @@ public class Profile {
 
     private Profile() {
 
+        super();
     }
 
     /**
