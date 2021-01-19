@@ -1,5 +1,7 @@
 package me.zuzyan.core.store.entity;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 import me.zuzyan.core.api.models.WidgetModel;
 
@@ -12,15 +14,20 @@ import me.zuzyan.core.api.models.WidgetModel;
 @Data
 public class WidgetEntity extends AbstractEntity {
 
-    private int x;
+    @NotNull(message = "X coordinate is mandatory")
+    private Integer x;
 
-    private int y;
+    @NotNull(message = "Y coordinate is mandatory")
+    private Integer y;
 
-    private int zIndex;
+    @NotNull(message = "Z-index is mandatory")
+    private Integer zIndex;
 
-    private int width;
+    @NotNull(message = "Width is mandatory")
+    private Integer width;
 
-    private int height;
+    @NotNull(message = "Height is mandatory")
+    private Integer height;
 
     public WidgetEntity(WidgetModel request) {
 

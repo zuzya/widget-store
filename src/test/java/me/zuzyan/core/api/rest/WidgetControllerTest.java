@@ -1,11 +1,13 @@
 package me.zuzyan.core.api.rest;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
 import java.util.Optional;
 
+import me.zuzyan.core.exceptions.ExceptionConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -35,6 +36,10 @@ import me.zuzyan.core.store.entity.WidgetEntity;
 class WidgetControllerTest extends AbstractCommonTest {
 
     public static final String API_V_1_WIDGET = "/api/v1";
+
+    public static final String MUST_NOT_BE_NULL = "must not be null";
+
+    public static final String MUST_BE_GREATER_THAN = "must be greater than or equal to 1";
 
     @Autowired
     private WebApplicationContext wac;
@@ -77,6 +82,46 @@ class WidgetControllerTest extends AbstractCommonTest {
     }
 
     @Test
+    void testCreateWidgetWithEmptyFields() throws Exception {
+
+        // Given
+        WidgetModel request = buildWidget();
+        request.setX(null);
+        request.setY(null);
+        request.setZIndex(null);
+        request.setWidth(null);
+        request.setHeight(null);
+
+        // When
+        mockMvc.perform(MockMvcRequestBuilders.post(API_V_1_WIDGET + "/widget")//
+                .contentType(MediaType.APPLICATION_JSON_VALUE)//
+                .content(jsonMapper.writeValueAsString(request)))//
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))//
+                .andExpect(jsonPath("x").value(MUST_NOT_BE_NULL))//
+                .andExpect(jsonPath("y").value(MUST_NOT_BE_NULL))//
+                .andExpect(jsonPath("zIndex").value(MUST_NOT_BE_NULL))//
+                .andExpect(jsonPath("width").value(MUST_NOT_BE_NULL))//
+                .andExpect(jsonPath("height").value(MUST_NOT_BE_NULL));
+    }
+
+    @Test
+    void testCreateWidgetWithNegativeParams() throws Exception {
+
+        // Given
+        WidgetModel request = buildWidget();
+        request.setWidth(-1);
+        request.setHeight(0);
+
+        // When
+        mockMvc.perform(MockMvcRequestBuilders.post(API_V_1_WIDGET + "/widget")//
+                .contentType(MediaType.APPLICATION_JSON_VALUE)//
+                .content(jsonMapper.writeValueAsString(request)))//
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))//
+                .andExpect(jsonPath("width").value(MUST_BE_GREATER_THAN))//
+                .andExpect(jsonPath("height").value(MUST_BE_GREATER_THAN));
+    }
+
+    @Test
     void testGetWidget() throws Exception {
 
         // Given
@@ -89,9 +134,19 @@ class WidgetControllerTest extends AbstractCommonTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE))//
                 .andExpect(status().is(HttpStatus.OK.value()))//
                 .andExpect(//
-                        MockMvcResultMatchers.jsonPath("$.id").value(widgetEntity.getId()));
+                        jsonPath("$.id").value(widgetEntity.getId()));
+    }
 
-        // Then
+    @Test
+    void testGetWidgetWithEmptyParam() throws Exception {
+
+        // When
+        mockMvc.perform(MockMvcRequestBuilders.get(API_V_1_WIDGET + "/widget/{id}", "123")//
+                .contentType(MediaType.APPLICATION_JSON_VALUE))//
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))//
+                .andExpect(jsonPath("code").value(ExceptionConstants.INTERNAL_ERROR.getCode()))//
+                .andExpect(jsonPath("message").value(ExceptionConstants.INTERNAL_ERROR.getMessage()))//
+                .andExpect(jsonPath("data").exists());
     }
 
     @Test
@@ -110,7 +165,7 @@ class WidgetControllerTest extends AbstractCommonTest {
                         .content(jsonMapper.writeValueAsString(toModification)))//
                 .andExpect(status().is(HttpStatus.OK.value()))//
                 .andExpect(//
-                        MockMvcResultMatchers.jsonPath("$.id").value(widgetEntity.getId()))//
+                        jsonPath("$.id").value(widgetEntity.getId()))//
                 .andReturn();
 
         // Then

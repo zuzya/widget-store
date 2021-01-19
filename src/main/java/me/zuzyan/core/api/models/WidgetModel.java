@@ -5,7 +5,11 @@ import static me.zuzyan.core.constants.Common.DATE_TIME_FORMAT;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,15 +29,23 @@ public class WidgetModel implements Serializable {
 
     private String id;
 
-    private int x;
+    @NotNull
+    private Integer x;
 
-    private int y;
+    @NotNull
+    private Integer y;
 
-    private int zIndex;
+    @NotNull
+    @JsonProperty("z-index")
+    private Integer zIndex;
 
-    private int width;
+    @NotNull
+    @Min(1)
+    private Integer width;
 
-    private int height;
+    @NotNull
+    @Min(1)
+    private Integer height;
 
     @JsonFormat(pattern = DATE_TIME_FORMAT)
     private LocalDateTime modificationTime;
