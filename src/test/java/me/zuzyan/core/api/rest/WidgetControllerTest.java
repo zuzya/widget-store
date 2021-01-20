@@ -4,10 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
-import me.zuzyan.core.exceptions.ExceptionConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,8 @@ import me.zuzyan.core.api.models.CreateWidgetResponseV1;
 import me.zuzyan.core.api.models.GetAllWidgetsResponseV1;
 import me.zuzyan.core.api.models.UpdateWidgetResponseV1;
 import me.zuzyan.core.api.models.WidgetModel;
-import me.zuzyan.core.store.StorageService;
+import me.zuzyan.core.exceptions.ExceptionConstants;
+import me.zuzyan.core.store.WidgetStorageService;
 import me.zuzyan.core.store.entity.WidgetEntity;
 
 /**
@@ -50,7 +50,7 @@ class WidgetControllerTest extends AbstractCommonTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private StorageService<WidgetEntity> storageService;
+    private WidgetStorageService<WidgetEntity> widgetStorageService;
 
     @BeforeEach
     void setUp() {
@@ -58,7 +58,7 @@ class WidgetControllerTest extends AbstractCommonTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 
         // todo: transactional
-        storageService.removeAll();
+        widgetStorageService.removeAll();
     }
 
     @Test
@@ -126,7 +126,7 @@ class WidgetControllerTest extends AbstractCommonTest {
 
         // Given
         WidgetModel model = new WidgetModel();
-        final WidgetEntity widgetEntity = storageService.create(model);
+        final WidgetEntity widgetEntity = widgetStorageService.create(model);
 
         // When
         mockMvc.perform(
@@ -145,7 +145,8 @@ class WidgetControllerTest extends AbstractCommonTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE))//
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))//
                 .andExpect(jsonPath("code").value(ExceptionConstants.INTERNAL_ERROR.getCode()))//
-                .andExpect(jsonPath("message").value(ExceptionConstants.INTERNAL_ERROR.getMessage()))//
+                .andExpect(
+                        jsonPath("message").value(ExceptionConstants.INTERNAL_ERROR.getMessage()))//
                 .andExpect(jsonPath("data").exists());
     }
 
@@ -154,7 +155,7 @@ class WidgetControllerTest extends AbstractCommonTest {
 
         // Given
         WidgetModel toModification = buildWidget();
-        final WidgetEntity widgetEntity = storageService.create(toModification);
+        final WidgetEntity widgetEntity = widgetStorageService.create(toModification);
         toModification.setId(widgetEntity.getId());
         toModification.setZIndex(3);
 
@@ -174,7 +175,7 @@ class WidgetControllerTest extends AbstractCommonTest {
         assertEquals(toModification.getZIndex(), responseModel.getZIndex());
 
         // check entity updated
-        final Optional<WidgetEntity> reloaded = storageService.load(widgetEntity.getId());
+        final Optional<WidgetEntity> reloaded = widgetStorageService.getById(widgetEntity.getId());
         assertTrue(reloaded.isPresent());
         assertEquals(toModification.getZIndex(), reloaded.get().getZIndex());
     }
@@ -183,8 +184,8 @@ class WidgetControllerTest extends AbstractCommonTest {
     void testDeleteWidget() throws Exception {
 
         // Given
-        final WidgetEntity widgetEntity = storageService.create(buildWidget());
-        assertFalse(storageService.loadAll().isEmpty());
+        final WidgetEntity widgetEntity = widgetStorageService.create(buildWidget());
+        assertFalse(widgetStorageService.getAll().isEmpty());
 
         // When
         mockMvc.perform(MockMvcRequestBuilders
@@ -193,16 +194,16 @@ class WidgetControllerTest extends AbstractCommonTest {
                 .andExpect(status().is(HttpStatus.OK.value()));
 
         // Then
-        assertTrue(storageService.loadAll().isEmpty());
+        assertTrue(widgetStorageService.getAll().isEmpty());
     }
 
     @Test
     void testFindAllWidgets() throws Exception {
 
         // Given
-        storageService.create(buildWidget());
-        storageService.create(buildWidget());
-        final List<WidgetEntity> entities = storageService.loadAll();
+        widgetStorageService.create(buildWidget());
+        widgetStorageService.create(buildWidget());
+        final Collection<WidgetEntity> entities = widgetStorageService.getAll();
         assertEquals(2, entities.size());
 
         // When

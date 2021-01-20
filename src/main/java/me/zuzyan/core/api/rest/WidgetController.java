@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.zuzyan.core.api.models.*;
 import me.zuzyan.core.exceptions.InternalErrorException;
 import me.zuzyan.core.exceptions.JsonError;
-import me.zuzyan.core.store.StorageService;
+import me.zuzyan.core.store.WidgetStorageService;
 import me.zuzyan.core.store.entity.WidgetEntity;
 
 /**
@@ -37,7 +37,7 @@ public class WidgetController {
     private static final String NOT_FOUND_WIDGET = "not found widget with id ";
 
     @Autowired
-    private StorageService<WidgetEntity> storageService;
+    private WidgetStorageService<WidgetEntity> widgetStorageService;
 
     @GetMapping(value = "/widget/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -49,7 +49,7 @@ public class WidgetController {
                     max = 12) //
             String id) throws Exception {
 
-        return storageService.load(id)//
+        return widgetStorageService.getById(id)//
                 .map(GetWidgetResponseV1::mapToModel)//
                 .orElseThrow(() -> new InternalErrorException(NOT_FOUND_WIDGET + id));
     }
@@ -61,7 +61,7 @@ public class WidgetController {
     public WidgetModel createWidget(@Valid @RequestBody WidgetModel request) {
 
         return CreateWidgetResponseV1.mapToModel(//
-                storageService.create(request));
+                widgetStorageService.create(request));
     }
 
     @PutMapping(value = "/widget",
@@ -70,9 +70,9 @@ public class WidgetController {
     @ResponseBody
     public UpdateWidgetResponseV1 updateWidget(@RequestBody WidgetModel request) throws Exception {
 
-        return UpdateWidgetResponseV1.mapToModel(storageService.load(request.getId())//
+        return UpdateWidgetResponseV1.mapToModel(widgetStorageService.getById(request.getId())//
                 .map(w -> w.merge(request))//
-                .map(w -> storageService.save(w)).orElseThrow(
+                .map(w -> widgetStorageService.save(w)).orElseThrow(
                         () -> new InternalErrorException(NOT_FOUND_WIDGET + request.getId())));
     }
 
@@ -83,7 +83,7 @@ public class WidgetController {
     public GetAllWidgetsResponseV1 getAllWidgets() throws Exception {
 
         return new GetAllWidgetsResponseV1(//
-                storageService.loadAll().stream()//
+                widgetStorageService.getAll().stream()//
                         .map(entity -> WidgetModel.mapToModel(entity, new WidgetModel()))//
                         .collect(Collectors.toList()));
     }
@@ -92,7 +92,7 @@ public class WidgetController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateWidget(@PathVariable("id") String id) {
 
-        storageService.remove(id);
+        widgetStorageService.remove(id);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
