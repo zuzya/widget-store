@@ -27,7 +27,7 @@ import me.zuzyan.core.store.entity.WidgetEntity;
 @AllArgsConstructor
 public class WidgetModel implements Serializable {
 
-    private String id;
+    private Long id;
 
     @NotNull
     private Integer x;

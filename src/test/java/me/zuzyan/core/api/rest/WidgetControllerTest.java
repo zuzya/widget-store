@@ -1,5 +1,6 @@
 package me.zuzyan.core.api.rest;
 
+import static me.zuzyan.core.WidgetModelHelper.buildWidget;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -50,6 +52,7 @@ class WidgetControllerTest extends AbstractCommonTest {
     private MockMvc mockMvc;
 
     @Autowired
+    @Qualifier("inMemoryWidgetStorageService")
     private WidgetStorageService<WidgetEntity> widgetStorageService;
 
     @BeforeEach
@@ -220,15 +223,4 @@ class WidgetControllerTest extends AbstractCommonTest {
         assertEquals(entities.size(), responseV1.getWidgets().size());
     }
 
-    private WidgetModel buildWidget() {
-
-        WidgetModel model = new WidgetModel();
-        model.setX(50);
-        model.setY(100);
-        model.setZIndex(1);
-        model.setWidth(200);
-        model.setHeight(400);
-
-        return model;
-    }
 }

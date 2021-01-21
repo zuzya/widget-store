@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles(TEST)
-@AutoConfigureMockMvc(print = MockMvcPrint.DEFAULT)
 abstract public class AbstractCommonTest {
 
     @Autowired

@@ -47,7 +47,7 @@ public class WidgetController {
             @PathVariable(value = "id") //
             @Size(min = 12,
                     max = 12) //
-            String id) throws Exception {
+                    Long id) throws Exception {
 
         return widgetStorageService.getById(id)//
                 .map(GetWidgetResponseV1::mapToModel)//
@@ -83,14 +83,14 @@ public class WidgetController {
     public GetAllWidgetsResponseV1 getAllWidgets() throws Exception {
 
         return new GetAllWidgetsResponseV1(//
-                widgetStorageService.getAll().stream()//
+                widgetStorageService.getAll().stream()
                         .map(entity -> WidgetModel.mapToModel(entity, new WidgetModel()))//
                         .collect(Collectors.toList()));
     }
 
     @DeleteMapping(value = "/widget/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateWidget(@PathVariable("id") String id) {
+    public void updateWidget(@PathVariable("id") Long id) {
 
         widgetStorageService.remove(id);
     }

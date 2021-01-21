@@ -3,15 +3,17 @@ package me.zuzyan.core.store.impl;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Random;
 import java.util.TreeSet;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 
 import me.zuzyan.core.api.models.WidgetModel;
 import me.zuzyan.core.store.WidgetRepository;
 import me.zuzyan.core.store.WidgetStorageService;
+import me.zuzyan.core.store.db.service.JpaWidgetStorageServiceImpl;
 import me.zuzyan.core.store.entity.WidgetEntity;
 
 /**
@@ -20,8 +22,9 @@ import me.zuzyan.core.store.entity.WidgetEntity;
  * @author Denis Zaripov
  * @created 19.01.2021 г.
  */
-@Service
-public class StupidInMemoryWidgetStorageServiceImpl implements WidgetStorageService<WidgetEntity> {
+@Service("inMemoryWidgetStorageService")
+@ConditionalOnMissingBean(JpaWidgetStorageServiceImpl.class)
+public class InMemoryWidgetStorageServiceImpl implements WidgetStorageService<WidgetEntity> {
 
     @Autowired
     private WidgetRepository<WidgetEntity> widgetRepository;
@@ -31,11 +34,10 @@ public class StupidInMemoryWidgetStorageServiceImpl implements WidgetStorageServ
 
         WidgetEntity entity = new WidgetEntity(object);
 
-        entity.setId(UUID.randomUUID().toString());
+        entity.setId(new Random().nextLong());
         entity.setCreationTime(LocalDateTime.now());
 
-        final TreeSet<WidgetEntity> all = (TreeSet) widgetRepository.findAll();
-
+//        final TreeSet<WidgetEntity> all = (TreeSet) widgetRepository.findAll();
 
         return save(entity);
     }
@@ -47,7 +49,7 @@ public class StupidInMemoryWidgetStorageServiceImpl implements WidgetStorageServ
     }
 
     @Override
-    public Optional<WidgetEntity> getById(String id) {
+    public Optional<WidgetEntity> getById(Long id) {
 
         return widgetRepository.findById(id);
     }
@@ -59,14 +61,14 @@ public class StupidInMemoryWidgetStorageServiceImpl implements WidgetStorageServ
     }
 
     @Override
-    public boolean remove(String id) {
+    public void remove(Long id) {
 
-        return widgetRepository.removeById(id);
+        widgetRepository.deleteById(id);
     }
 
     @Override
     public void removeAll() {
 
-        widgetRepository.removeAll();
+        widgetRepository.deleteAll();
     }
 }

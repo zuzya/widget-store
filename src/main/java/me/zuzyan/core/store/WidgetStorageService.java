@@ -17,11 +17,11 @@ public interface WidgetStorageService<W> {
 
     W save(W object);
 
-    Optional<W> getById(String id);
+    Optional<W> getById(Long id);
 
     Collection<W> getAll();
 
-    boolean remove(String id);
+    void remove(Long id);
 
     void removeAll();
 }

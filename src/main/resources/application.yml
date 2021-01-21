@@ -1,0 +1,14 @@
+spring:
+
+# database
+db:
+  driver: org.postgresql.Driver
+  dialect: org.hibernate.dialect.PostgreSQL82Dialect
+  schema: public
+  #todo:
+  url: jdbc:postgresql://...
+  catalog: ...
+
+# custom settings
+storage.type: postgres
+#storage.type: memory

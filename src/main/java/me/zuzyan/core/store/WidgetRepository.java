@@ -3,6 +3,8 @@ package me.zuzyan.core.store;
 import java.util.Collection;
 import java.util.Optional;
 
+import me.zuzyan.core.store.entity.WidgetEntity;
+
 /**
  * Descrition
  *
@@ -11,13 +13,13 @@ import java.util.Optional;
  */
 public interface WidgetRepository<W> {
 
-    W save(W object);
+    WidgetEntity save(WidgetEntity entity);
 
-    Optional<W> findById(String id);
+    Optional<W> findById(Long id);
 
     Collection<W> findAll();
 
-    boolean removeById(String id);
+    void deleteById(Long id);
 
-    void removeAll();
+    void deleteAll();
 }

@@ -2,6 +2,7 @@ package me.zuzyan.core.api.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import lombok.Data;
@@ -24,7 +25,7 @@ public class GetAllWidgetsResponseV1 implements Serializable {
         this.widgets = widgets;
     }
 
-    public List<WidgetModel> getWidgets() {
+    public Collection<WidgetModel> getWidgets() {
 
         if (widgets == null) {
             widgets = new ArrayList<>();

@@ -1,0 +1,7 @@
+spring:
+
+  flyway:
+    enabled: false
+
+#fixme: use flyway migrations for tests too
+db.hbm2ddl: create

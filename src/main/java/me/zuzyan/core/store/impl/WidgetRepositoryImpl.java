@@ -1,7 +1,9 @@
 package me.zuzyan.core.store.impl;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import org.springframework.stereotype.Repository;
 
@@ -17,8 +19,7 @@ import me.zuzyan.core.store.entity.WidgetEntity;
 @Repository
 public class WidgetRepositoryImpl implements WidgetRepository<WidgetEntity> {
 
-    private Set<WidgetEntity> storage =
-            Collections.synchronizedSet(new TreeSet<>(Comparator.comparing(WidgetEntity::getId)));
+    private ConcurrentSkipListSet<WidgetEntity> storage = new ConcurrentSkipListSet<>();
 
     @Override
     public WidgetEntity save(WidgetEntity entity) {
@@ -32,7 +33,7 @@ public class WidgetRepositoryImpl implements WidgetRepository<WidgetEntity> {
     }
 
     @Override
-    public Optional<WidgetEntity> findById(String id) {
+    public Optional<WidgetEntity> findById(Long id) {
 
         return storage.stream()//
                 .filter(w -> w.getId().equals(id))//
@@ -40,9 +41,9 @@ public class WidgetRepositoryImpl implements WidgetRepository<WidgetEntity> {
     }
 
     @Override
-    public boolean removeById(String id) {
+    public void deleteById(Long id) {
 
-        return storage.removeIf(w -> w.getId().equals(id));
+        storage.removeIf(w -> w.getId().equals(id));
     }
 
     @Override
@@ -52,7 +53,7 @@ public class WidgetRepositoryImpl implements WidgetRepository<WidgetEntity> {
     }
 
     @Override
-    public void removeAll() {
+    public void deleteAll() {
 
         storage.clear();
     }
