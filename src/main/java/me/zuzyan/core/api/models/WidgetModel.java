@@ -11,6 +11,9 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,28 +28,36 @@ import me.zuzyan.core.storage.entity.WidgetEntity;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel(description = "widget data")
 public class WidgetModel implements Serializable {
 
+    @ApiModelProperty("widget identifier")
     private Long id;
 
+    @ApiModelProperty("x coordinate")
     @NotNull
     private Integer x;
 
+    @ApiModelProperty("y coordinate")
     @NotNull
     private Integer y;
 
+    @ApiModelProperty("z-index")
     @NotNull
     @JsonProperty("z-index")
     private Integer zIndex;
 
+    @ApiModelProperty("widget width")
     @NotNull
     @Min(1)
     private Integer width;
 
+    @ApiModelProperty("widget height")
     @NotNull
     @Min(1)
     private Integer height;
 
+    @ApiModelProperty("last modification time")
     @JsonFormat(pattern = DATE_TIME_FORMAT)
     private LocalDateTime modificationTime;
 

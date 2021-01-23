@@ -15,12 +15,14 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import me.zuzyan.core.api.models.*;
 import me.zuzyan.core.exceptions.InternalErrorException;
 import me.zuzyan.core.exceptions.JsonError;
 import me.zuzyan.core.storage.WidgetStorageService;
-import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
  * REST-controller for managing widgets
@@ -31,7 +33,7 @@ import me.zuzyan.core.storage.entity.WidgetEntity;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1")
-// todo: swagger
+@Api(value = "Controller for widgets managing")
 public class WidgetController {
 
     private static final String NOT_FOUND_WIDGET = "not found widget with id ";
@@ -40,43 +42,51 @@ public class WidgetController {
     @Qualifier("inMemoryWidgetStorageService")
     private WidgetStorageService inMemoryWidgetStorageService;
 
+    @ApiOperation(value = "Getting widget by id")
     @GetMapping(value = "/widget/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public GetWidgetResponseV1 getWidget(//
+            @ApiParam("widget id") //
             @PathVariable(value = "id") //
             @Size(min = 12,
                     max = 12) //
-                    Long id) throws Exception {
+            Long id) throws Exception {
 
         return inMemoryWidgetStorageService.getById(id)//
                 .map(GetWidgetResponseV1::mapToModel)//
                 .orElseThrow(() -> new InternalErrorException(NOT_FOUND_WIDGET + id));
     }
 
+    @ApiOperation(value = "Create widget")
     @PostMapping(value = "/widget",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public WidgetModel createWidget(@Valid @RequestBody WidgetModel request) {
+    public WidgetModel createWidget(@ApiParam("widget data") //
+    @Valid @RequestBody WidgetModel request) {
 
         return CreateWidgetResponseV1.mapToModel(//
                 inMemoryWidgetStorageService.create(request));
     }
 
+    @ApiOperation(value = "Update widget")
     @PutMapping(value = "/widget",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public UpdateWidgetResponseV1 updateWidget(@RequestBody WidgetModel request) throws Exception {
+    public UpdateWidgetResponseV1 updateWidget(@ApiParam("widget data") //
+    @RequestBody WidgetModel request) throws Exception {
 
-        return UpdateWidgetResponseV1.mapToModel(inMemoryWidgetStorageService.getById(request.getId())//
+        return UpdateWidgetResponseV1.mapToModel(inMemoryWidgetStorageService
+                .getById(request.getId())//
                 .map(w -> w.merge(request))//
                 .map(w -> inMemoryWidgetStorageService.save(w)).orElseThrow(
                         () -> new InternalErrorException(NOT_FOUND_WIDGET + request.getId())));
     }
 
+    @ApiOperation(value = "Get all widgets")
     @GetMapping(value = "/widgets",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -89,9 +99,11 @@ public class WidgetController {
                         .collect(Collectors.toList()));
     }
 
+    @ApiOperation(value = "Remove widget by id")
     @DeleteMapping(value = "/widget/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateWidget(@PathVariable("id") Long id) {
+    public void removeWidget(@ApiParam("widget id") //
+    @PathVariable("id") Long id) {
 
         inMemoryWidgetStorageService.remove(id);
     }
