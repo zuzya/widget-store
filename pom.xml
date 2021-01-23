@@ -33,7 +33,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.tochka.ors.ServiceRunner</mainClass>
+                    <mainClass>me.zuzyan.ServiceRunner</mainClass>
                 </configuration>
                 <executions>
                     <execution>

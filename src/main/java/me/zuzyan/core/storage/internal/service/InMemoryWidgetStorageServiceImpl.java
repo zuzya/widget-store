@@ -1,12 +1,11 @@
 package me.zuzyan.core.storage.internal.service;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import me.zuzyan.core.api.models.WidgetModel;
@@ -21,9 +20,9 @@ import me.zuzyan.core.storage.entity.WidgetEntity;
  * @author Denis Zaripov
  * @created 19.01.2021 г.
  */
-@Service("inMemoryWidgetStorageService")
+//@Component("inMemoryWidgetStorageService")
 @ConditionalOnMissingBean(JpaWidgetStorageServiceImpl.class)
-public class InMemoryWidgetStorageServiceImpl implements WidgetStorageService<WidgetEntity> {
+public class InMemoryWidgetStorageServiceImpl implements WidgetStorageService {
 
     @Autowired
     private WidgetRepository<WidgetEntity> widgetRepository;

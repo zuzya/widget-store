@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import me.zuzyan.core.api.models.WidgetModel;
+import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
  * Descrition
@@ -11,15 +12,15 @@ import me.zuzyan.core.api.models.WidgetModel;
  * @author Denis Zaripov
  * @created 19.01.2021 г.
  */
-public interface WidgetStorageService<W> {
+public interface WidgetStorageService {
 
-    W create(WidgetModel object);
+    WidgetEntity create(WidgetModel object);
 
-    W save(W object);
+    WidgetEntity save(WidgetEntity object);
 
-    Optional<W> getById(Long id);
+    Optional<WidgetEntity> getById(Long id);
 
-    Collection<W> getAll();
+    Collection<WidgetEntity> getAll();
 
     void remove(Long id);
 

@@ -21,7 +21,7 @@ import me.zuzyan.core.storage.entity.WidgetEntity;
  */
 @Service("jpaWidgetStorageService")
 @ConditionalOnBean(RelationalDatabaseConfiguration.class)
-public class JpaWidgetStorageServiceImpl implements WidgetStorageService<WidgetEntity> {
+public class JpaWidgetStorageServiceImpl implements WidgetStorageService {
 
     @Autowired
     private WidgetJPARepository widgetRepository;

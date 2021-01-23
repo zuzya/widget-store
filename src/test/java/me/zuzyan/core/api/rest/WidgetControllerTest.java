@@ -53,7 +53,7 @@ class WidgetControllerTest extends AbstractCommonTest {
 
     @Autowired
     @Qualifier("inMemoryWidgetStorageService")
-    private WidgetStorageService<WidgetEntity> widgetStorageService;
+    private WidgetStorageService widgetStorageService;
 
     @BeforeEach
     void setUp() {
