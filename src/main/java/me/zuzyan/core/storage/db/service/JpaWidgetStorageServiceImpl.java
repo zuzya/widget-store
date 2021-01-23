@@ -1,18 +1,17 @@
-package me.zuzyan.core.store.db.service;
+package me.zuzyan.core.storage.db.service;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
-import me.zuzyan.core.config.RelationalDatabaseConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 
 import me.zuzyan.core.api.models.WidgetModel;
-import me.zuzyan.core.store.WidgetStorageService;
-import me.zuzyan.core.store.db.repository.WidgetJPARepository;
-import me.zuzyan.core.store.entity.WidgetEntity;
+import me.zuzyan.core.config.RelationalDatabaseConfiguration;
+import me.zuzyan.core.storage.WidgetStorageService;
+import me.zuzyan.core.storage.db.repository.WidgetJPARepository;
+import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
  * In memory storage implementation
@@ -31,15 +30,7 @@ public class JpaWidgetStorageServiceImpl implements WidgetStorageService<WidgetE
     public WidgetEntity create(WidgetModel model) {
 
         WidgetEntity entity = new WidgetEntity(model);
-        entity.setCreationTime(LocalDateTime.now());
-
-        Collection<WidgetEntity> others =
-                widgetRepository.findByZIndex(model.getZIndex());
-
-        final WidgetEntity saved = save(entity);
-        moveZIndexes(others, saved);
-
-        return saved;
+        return save(entity);
     }
 
     private void moveZIndexes(Collection<WidgetEntity> others, WidgetEntity saved) {
@@ -57,7 +48,7 @@ public class JpaWidgetStorageServiceImpl implements WidgetStorageService<WidgetE
 
                 w.setZIndex(w.getZIndex() + 1);
                 widgetRepository.save(w);
-            }else {
+            } else {
                 incremented = false;
             }
         }
@@ -66,7 +57,12 @@ public class JpaWidgetStorageServiceImpl implements WidgetStorageService<WidgetE
     @Override
     public WidgetEntity save(WidgetEntity entity) {
 
-        return widgetRepository.save(entity);
+        final WidgetEntity saved = widgetRepository.save(entity);
+
+        Collection<WidgetEntity> others = widgetRepository.findByZIndex(entity.getZIndex());
+        moveZIndexes(others, saved);
+
+        return saved;
     }
 
     @Override

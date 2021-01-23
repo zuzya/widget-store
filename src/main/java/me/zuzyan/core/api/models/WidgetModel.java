@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.zuzyan.core.store.entity.WidgetEntity;
+import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
  * Model for widget object

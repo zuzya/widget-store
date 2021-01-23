@@ -1,20 +1,19 @@
-package me.zuzyan.core.store.impl;
+package me.zuzyan.core.storage.internal.service;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Random;
-import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 
 import me.zuzyan.core.api.models.WidgetModel;
-import me.zuzyan.core.store.WidgetRepository;
-import me.zuzyan.core.store.WidgetStorageService;
-import me.zuzyan.core.store.db.service.JpaWidgetStorageServiceImpl;
-import me.zuzyan.core.store.entity.WidgetEntity;
+import me.zuzyan.core.storage.WidgetRepository;
+import me.zuzyan.core.storage.WidgetStorageService;
+import me.zuzyan.core.storage.db.service.JpaWidgetStorageServiceImpl;
+import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
  * In memory storage implementation
@@ -30,15 +29,9 @@ public class InMemoryWidgetStorageServiceImpl implements WidgetStorageService<Wi
     private WidgetRepository<WidgetEntity> widgetRepository;
 
     @Override
-    public WidgetEntity create(WidgetModel object) {
+    public WidgetEntity create(WidgetModel model) {
 
-        WidgetEntity entity = new WidgetEntity(object);
-
-        entity.setId(new Random().nextLong());
-        entity.setCreationTime(LocalDateTime.now());
-
-//        final TreeSet<WidgetEntity> all = (TreeSet) widgetRepository.findAll();
-
+        WidgetEntity entity = new WidgetEntity(model);
         return save(entity);
     }
 

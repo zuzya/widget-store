@@ -1,13 +1,14 @@
-package me.zuzyan.core.store.entity;
+package me.zuzyan.core.storage.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import lombok.Data;
+import javax.persistence.*;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+import lombok.Data;
 
 /**
  * Descrition
@@ -24,7 +25,7 @@ public class AbstractEntity implements Serializable {
     protected Long id;
 
     @Version
-    protected int version;
+    protected int version = 1;
 
     @CreationTimestamp
     protected LocalDateTime creationTime;

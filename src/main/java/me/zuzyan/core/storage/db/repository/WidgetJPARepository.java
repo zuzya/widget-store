@@ -1,17 +1,15 @@
-package me.zuzyan.core.store.db.repository;
+package me.zuzyan.core.storage.db.repository;
 
 import java.util.Collection;
 
 import me.zuzyan.core.config.RelationalDatabaseConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import me.zuzyan.core.store.WidgetRepository;
-import me.zuzyan.core.store.entity.WidgetEntity;
+import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
  * Descrition

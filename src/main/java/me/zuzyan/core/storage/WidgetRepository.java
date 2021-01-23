@@ -1,9 +1,9 @@
-package me.zuzyan.core.store;
+package me.zuzyan.core.storage;
 
 import java.util.Collection;
 import java.util.Optional;
 
-import me.zuzyan.core.store.entity.WidgetEntity;
+import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
  * Descrition

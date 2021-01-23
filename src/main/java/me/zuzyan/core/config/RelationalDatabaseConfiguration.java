@@ -32,8 +32,8 @@ import me.zuzyan.core.properties.DataBaseProperties;
 @Configuration
 @ConditionalOnProperty(name = "storage.type", havingValue = "postgres")
 @EnableConfigurationProperties({ DataBaseProperties.class })
-@ComponentScan({ "me.zuzyan.core.store.db" })
-@EnableJpaRepositories({ "me.zuzyan.core.store.db.repository" })
+@ComponentScan({"me.zuzyan.core.storage.db"})
+@EnableJpaRepositories({"me.zuzyan.core.storage.db.repository"})
 @EnableTransactionManagement
 @Slf4j
 public class RelationalDatabaseConfiguration {

@@ -1,6 +1,6 @@
 package me.zuzyan.core.api.models;
 
-import me.zuzyan.core.store.entity.WidgetEntity;
+import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
  * Descrition

@@ -2,6 +2,8 @@ package me.zuzyan.core.properties;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.zuzyan.core.config.RelationalDatabaseConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -14,6 +16,7 @@ import javax.validation.constraints.NotNull;
  * @created 22.01.2021 г.
  */
 @ConfigurationProperties(prefix = "db")
+@ConditionalOnBean(RelationalDatabaseConfiguration.class)
 @Validated
 @Getter
 @Setter

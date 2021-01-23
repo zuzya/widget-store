@@ -26,8 +26,8 @@ import me.zuzyan.core.api.models.GetAllWidgetsResponseV1;
 import me.zuzyan.core.api.models.UpdateWidgetResponseV1;
 import me.zuzyan.core.api.models.WidgetModel;
 import me.zuzyan.core.exceptions.ExceptionConstants;
-import me.zuzyan.core.store.WidgetStorageService;
-import me.zuzyan.core.store.entity.WidgetEntity;
+import me.zuzyan.core.storage.WidgetStorageService;
+import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
  * Test for {@link WidgetController}

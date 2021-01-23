@@ -1,18 +1,17 @@
-package me.zuzyan.core.store.db.service;
+package me.zuzyan.core.storage.db.service;
 
 import static me.zuzyan.core.WidgetModelHelper.buildWidget;
 import static org.junit.jupiter.api.Assertions.*;
 
-import me.zuzyan.core.store.db.repository.WidgetJPARepository;
+import me.zuzyan.core.storage.db.repository.WidgetJPARepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import me.zuzyan.core.PostgresTest;
 import me.zuzyan.core.api.models.WidgetModel;
-import me.zuzyan.core.store.WidgetRepository;
-import me.zuzyan.core.store.WidgetStorageService;
-import me.zuzyan.core.store.entity.WidgetEntity;
+import me.zuzyan.core.storage.WidgetStorageService;
+import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
  * Test for {@link JpaWidgetStorageServiceImpl}

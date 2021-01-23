@@ -10,5 +10,5 @@ db:
   catalog: ...
 
 # custom settings
-storage.type: postgres
-#storage.type: memory
+#storage.type: postgres
+storage.type: memory

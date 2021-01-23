@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import me.zuzyan.core.api.models.*;
 import me.zuzyan.core.exceptions.InternalErrorException;
 import me.zuzyan.core.exceptions.JsonError;
-import me.zuzyan.core.store.WidgetStorageService;
-import me.zuzyan.core.store.entity.WidgetEntity;
+import me.zuzyan.core.storage.WidgetStorageService;
+import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
  * REST-controller for managing widgets
