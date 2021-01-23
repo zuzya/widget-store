@@ -9,6 +9,33 @@ db:
   url: jdbc:postgresql://...
   catalog: ...
 
+# management
+management:
+  server.port: 9273
+  endpoints:
+    web:
+      exposure.include: "*"
+      base-path: "/"
+      path-mapping.prometheus: "metrics"
+  endpoint:
+    prometheus.enabled: true
+    metrics.enabled: false
+    shutdown.enabled: false
+    health.show-details: always
+  trace.http.include: request-headers,response-headers,principal,remote-address,session-id
+  health:
+    diskspace.enabled: false
+    rabbit.enabled: false
+    mongo.enabled: false
+
+  # micrometer
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+
 # custom settings
 #storage.type: postgres
 storage.type: memory
