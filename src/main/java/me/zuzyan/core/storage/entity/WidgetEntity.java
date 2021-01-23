@@ -76,23 +76,8 @@ public class WidgetEntity extends AbstractEntity implements Comparable<WidgetEnt
 
         if (this.getZIndex() > o.getZIndex()) {
             return 1;
-        } else if (this.getZIndex().equals(o.getZIndex())) {
-
-            if (this.getModificationTime() == null && o.getModificationTime() != null) {
-                return 1;
-            } else if (this.getModificationTime() != null && o.getModificationTime() == null) {
-                return -1;
-            } else if (this.getModificationTime() == null && o.getModificationTime() == null) {
-                return 0;
-            }
-
-            if (this.getModificationTime() != null //
-                    && o.getModificationTime() != null //
-                    && this.getModificationTime().isEqual(o.getModificationTime())) {
-
-                return 0;
-            }
-
+        } else if (this.equals(o)) {
+            return 0;
         }
         return -1;
     }

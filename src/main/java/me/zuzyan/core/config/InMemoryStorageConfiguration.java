@@ -21,13 +21,13 @@ import me.zuzyan.core.storage.internal.WidgetStorage;
 public class InMemoryStorageConfiguration {
 
     @Bean
-    public WidgetStorage<WidgetEntity> skipListSetStorage() {
+    public WidgetStorage skipListSetStorage() {
 
         return SkipListSetStorage.create();
     }
 
     @Bean
-    public WidgetStorage<Container> linkedStorage() {
+    public WidgetStorage linkedStorage() {
 
         return LinkedStorage.create();
     }

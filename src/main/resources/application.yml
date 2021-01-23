@@ -39,3 +39,5 @@ management:
 # custom settings
 #storage.type: postgres
 storage.type: memory
+
+onread.enabled: true

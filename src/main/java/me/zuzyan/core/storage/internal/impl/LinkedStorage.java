@@ -16,14 +16,14 @@ import me.zuzyan.core.storage.internal.WidgetStorage;
  * @created 22.01.2021 г.
  */
 @Data
-public class LinkedStorage implements WidgetStorage<Container> {
+public class LinkedStorage implements WidgetStorage {
 
     private LinkedStorage() {
 
         super();
     }
 
-    public static WidgetStorage<Container> create() {
+    public static WidgetStorage create() {
 
         return new LinkedStorage();
     }
@@ -38,8 +38,10 @@ public class LinkedStorage implements WidgetStorage<Container> {
         Container toAdd = new Container();
         entity.setId(incrementer.addAndGet(1));
         entity.setCreationTime(LocalDateTime.now());
+        entity.setModificationTime(LocalDateTime.now());
         toAdd.setWidget(entity);
         toAdd.setNext(collection.higher(toAdd));
+        collection.add(toAdd);
 
         Container prev = collection.lower(toAdd);
         if (prev != null) {
@@ -49,8 +51,6 @@ public class LinkedStorage implements WidgetStorage<Container> {
         if (!collection.isEmpty()) {
             moveForward(toAdd);
         }
-
-        collection.add(toAdd);
     }
 
     private void moveForward(Container current) {
@@ -61,7 +61,6 @@ public class LinkedStorage implements WidgetStorage<Container> {
 
             final WidgetEntity widgetOfGreater = next.getWidget();
             if (widgetOfGreater.getZIndex().equals(current.getWidget().getZIndex())) {
-                widgetOfGreater.setModificationTime(LocalDateTime.now());
                 widgetOfGreater.incZ();
             }
             moveForward(next);
@@ -75,10 +74,11 @@ public class LinkedStorage implements WidgetStorage<Container> {
     }
 
     @Override
-    public Container find(Long id) {
+    public WidgetEntity find(Long id) {
 
         return collection.stream()//
                 .filter(el -> el.getWidget().getId().equals(id))//
+                .map(el -> el.getWidget())//
                 .findFirst().orElse(null);
     }
 
@@ -95,7 +95,7 @@ public class LinkedStorage implements WidgetStorage<Container> {
     }
 
     @Override
-    public Collection<Container> findAll() {
+    public Collection findAll() {
 
         return collection;
     }

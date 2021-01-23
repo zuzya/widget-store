@@ -16,7 +16,7 @@ import me.zuzyan.core.storage.internal.WidgetStorage;
  * @created 22.01.2021 г.
  */
 @Data
-public class SkipListSetStorage implements WidgetStorage<WidgetEntity> {
+public class SkipListSetStorage implements WidgetStorage {
 
     private static final AtomicLong incrementer = new AtomicLong(0);
 
@@ -28,7 +28,7 @@ public class SkipListSetStorage implements WidgetStorage<WidgetEntity> {
         super();
     }
 
-    public static WidgetStorage<WidgetEntity> create() {
+    public static WidgetStorage create() {
 
         return new SkipListSetStorage();
     }
@@ -38,32 +38,30 @@ public class SkipListSetStorage implements WidgetStorage<WidgetEntity> {
 
         entity.setId(incrementer.addAndGet(1));
         entity.setCreationTime(LocalDateTime.now());
+        entity.setModificationTime(LocalDateTime.now());
+        collection.add(entity);
 
         if (!collection.isEmpty()) {
             moveForward(entity);
         }
 
-        collection.add(entity);
     }
 
-    private void moveForward(WidgetEntity toAdd) {
+    /**
+     * Increment z-index when higher element's z-index is the same with current
+     * 
+     * @param current
+     *            element to compare
+     */
+    private void moveForward(WidgetEntity current) {
 
-        WidgetEntity greater = collection.ceiling(toAdd);
-        if (greater != null && greater.equals(toAdd)) {
-            greater = collection.higher(toAdd);
-        }
+        WidgetEntity higher = collection.higher(current);
+        if (higher != null && higher.getZIndex().equals(current.getZIndex())) {
 
-        if (greater != null) {
+            higher.setModificationTime(LocalDateTime.now());
+            higher.incZ();
 
-            if (greater.getZIndex().equals(toAdd.getZIndex())) {
-
-                greater.setModificationTime(LocalDateTime.now());
-                greater.incZ();
-                collection.remove(greater);
-                collection.add(greater);
-            }
-
-            moveForward(greater);
+            moveForward(higher);
         }
     }
 

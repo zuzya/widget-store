@@ -22,7 +22,7 @@ import me.zuzyan.core.storage.internal.WidgetStorage;
 public class InMemoryWidgetRepositoryImpl implements WidgetRepository<WidgetEntity> {
 
     @Autowired
-    private WidgetStorage<WidgetEntity> storage;
+    private WidgetStorage storage;
 
     @Override
     public WidgetEntity save(WidgetEntity entity) {

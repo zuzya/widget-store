@@ -5,6 +5,7 @@ import static me.zuzyan.core.constants.Common.DATE_TIME_FORMAT;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
