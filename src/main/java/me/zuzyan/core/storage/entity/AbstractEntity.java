@@ -32,4 +32,9 @@ public class AbstractEntity implements Serializable {
 
     @UpdateTimestamp
     protected LocalDateTime modificationTime;
+
+    public void incVersion() {
+
+        this.version++;
+    }
 }

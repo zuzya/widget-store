@@ -7,15 +7,15 @@ RUN yum install -y java-11-openjdk java-11-openjdk-headless \
     && rm -rf /tmp/dist && rm -rf /var/cache/yum
 
 #scripts
-COPY /scripts/run_app.sh /
+COPY /scripts/start_within_container.sh /
 
 RUN \
     mkdir /opt/apps && \
     cd / && \
-    chown -R root:root /run_app.sh && chmod +x /run_app.sh
+    chown -R root:root /start_within_container.sh && chmod +x /start_within_container.sh
 
 #copy jar
 ADD ./target/*.jar /opt/apps/app.jar
 
 #run
-ENTRYPOINT ["/run_app.sh"]
+ENTRYPOINT sh start_within_container.sh

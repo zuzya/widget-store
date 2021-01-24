@@ -5,40 +5,33 @@ import java.math.BigDecimal;
 import javax.persistence.Transient;
 
 import lombok.Data;
-import me.zuzyan.core.storage.entity.AbstractEntity;
+import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
- * Descrition
+ * Entity for experiment with 'withfactor' algorithm
  *
  * @author Denis Zaripov
  * @created 19.01.2021 г.
  */
 @Data
-public class WithFactorWidgetEntity extends AbstractEntity
-        implements Comparable<WithFactorWidgetEntity> {
+public class WithFactorWidgetEntity extends WidgetEntity {
 
-    private Integer x;
-
-    private Integer y;
-
-    private BigDecimal zIndex;
-
-    private Integer width;
-
-    private Integer height;
-
-    public WithFactorWidgetEntity() {
-
-    }
+    private BigDecimal zIndexEx;
 
     @Transient
     @Override
-    public int compareTo(WithFactorWidgetEntity o) {
+    public int compareTo(WidgetEntity o) {
 
-        if (this.getZIndex().compareTo(o.getZIndex()) != 0) {
-            return this.getZIndex().compareTo(o.getZIndex());
-        } else if (this.equals(o)) {
-            return 0;
+        if (o instanceof WithFactorWidgetEntity) {
+
+            WithFactorWidgetEntity w = (WithFactorWidgetEntity) o;
+
+            if (this.getZIndexEx().compareTo(w.getZIndexEx()) != 0) {
+                return this.getZIndexEx().compareTo(w.getZIndexEx());
+            } else if (this.equals(w)) {
+                return 0;
+            }
+            return -1;
         }
         return -1;
     }

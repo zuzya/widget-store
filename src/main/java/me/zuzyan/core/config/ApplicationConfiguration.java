@@ -10,14 +10,14 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * Descrition
+ * Application configuration
  *
  * @author Denis Zaripov
  * @created 23.01.2021 г.
  */
 @EnableSwagger2
 @Configuration
-public class SpringFoxConfig {
+public class ApplicationConfiguration {
 
     @Bean
     public Docket api() {

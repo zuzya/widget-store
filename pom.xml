@@ -24,6 +24,8 @@
         <embedded-postgres.version>1.2.10</embedded-postgres.version>
         <embedded-database-spring-test.version>1.5.2</embedded-database-spring-test.version>
         <org.testcontainers.version>1.15.1</org.testcontainers.version>
+        <springfox-swaggeri.version>3.0.0</springfox-swaggeri.version>
+        <guava.version>30.1-jre</guava.version>
     </properties>
 
     <build>
@@ -48,7 +50,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M2</version>
+                <version>${springfox-swaggeri.version}-M2</version>
                 <configuration>
                     <excludes>
                         <!-- common -->
@@ -177,29 +179,28 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>3.0.0</version>
+            <version>${springfox-swaggeri.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-spring-web</artifactId>
-            <version>3.0.0</version>
+            <version>${springfox-swaggeri.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
+            <version>${springfox-swaggeri.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>3.0.0</version>
+            <version>${springfox-swaggeri.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>30.1-jre</version>
+            <version>${guava.version}</version>
         </dependency>
-
 
 
         <!--  test scope-->

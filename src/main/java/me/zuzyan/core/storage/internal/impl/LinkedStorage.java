@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import lombok.Data;
 import me.zuzyan.core.storage.entity.WidgetEntity;
@@ -78,7 +79,7 @@ public class LinkedStorage implements WidgetStorage {
 
         return collection.stream()//
                 .filter(el -> el.getWidget().getId().equals(id))//
-                .map(el -> el.getWidget())//
+                .map(Container::getWidget)//
                 .findFirst().orElse(null);
     }
 
@@ -95,9 +96,11 @@ public class LinkedStorage implements WidgetStorage {
     }
 
     @Override
-    public Collection findAll() {
+    public Collection<WidgetEntity> findAll() {
 
-        return collection;
+        return collection.stream()//
+                .map(Container::getWidget)//
+                .collect(Collectors.toList());
     }
 
 }

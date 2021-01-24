@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
 /**
- * Descrition
+ * Test for {@link WithFactorStorage}
  *
  * @author Denis Zaripov
  * @created 24.01.2021 г.
@@ -47,28 +47,28 @@ class WithFactorStorageTest {
 
         // 1
         final WithFactorWidgetEntity found1 = storage.find(entity1.getId());
-        assertEquals(new BigDecimal(1), found1.getZIndex());
+        assertEquals(new BigDecimal(1), found1.getZIndexEx());
 
         final WithFactorWidgetEntity found19 = storage.find(entity19.getId());
-        assertEquals(new BigDecimal("1.9"), found19.getZIndex());
+        assertEquals(new BigDecimal("1.9"), found19.getZIndexEx());
 
         final WithFactorWidgetEntity found191 = storage.find(entity191.getId());
-        assertEquals(new BigDecimal("1.91"), found191.getZIndex());
+        assertEquals(new BigDecimal("1.91"), found191.getZIndexEx());
 
         // control
         final WithFactorWidgetEntity foundControl = storage.find(control.getId());
-        assertEquals(new BigDecimal("1.911"), foundControl.getZIndex());
+        assertEquals(new BigDecimal("1.911"), foundControl.getZIndexEx());
 
         // 2
         final WithFactorWidgetEntity found2 = storage.find(entity2.getId());
-        assertEquals(new BigDecimal(2), found2.getZIndex());
+        assertEquals(new BigDecimal(2), found2.getZIndexEx());
     }
 
     protected WithFactorWidgetEntity buildWidgetEntity(BigDecimal zIndex) {
 
         final WithFactorWidgetEntity entity = new WithFactorWidgetEntity();
         entity.setId(1L);
-        entity.setZIndex(zIndex);
+        entity.setZIndexEx(zIndex);
         entity.setX(100);
         entity.setY(200);
 

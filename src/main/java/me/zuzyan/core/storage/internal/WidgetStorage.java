@@ -10,9 +10,9 @@ import me.zuzyan.core.storage.entity.WidgetEntity;
  * @author Denis Zaripov
  * @created 23.01.2021 г.
  */
-public interface WidgetStorage {
+public interface WidgetStorage<W extends WidgetEntity> {
 
-    void add(WidgetEntity entity);
+    void add(W entity);
 
     WidgetEntity find(Long id);
 
@@ -20,7 +20,7 @@ public interface WidgetStorage {
 
     void deleteAll();
 
-    Collection<WidgetEntity> findAll();
+    Collection<W> findAll();
 
     int size();
 }

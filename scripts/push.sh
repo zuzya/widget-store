@@ -6,6 +6,8 @@ registry=zuzyadocker
 appname="widget-store"
 version="$1"
 
-docker build --force-rm -t "$appname":"$version" .
+mvn clean install -DskipTests=true
+
+docker build --force-rm -t "$appname":"$version" -f ./Dockerfile .
 docker tag "$appname":"$version" $registry/"$appname":"$version"
 docker push $registry/"$appname":"$version"

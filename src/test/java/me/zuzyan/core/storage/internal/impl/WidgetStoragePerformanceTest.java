@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +16,13 @@ import me.zuzyan.core.storage.entity.WidgetEntity;
 import me.zuzyan.core.storage.internal.WidgetStorage;
 
 /**
- * Performance test for {@link SkipListSetStorage}
+ * Performance test for storage types
  *
  * @author Denis Zaripov
  * @created 22.01.2021 г.
  */
 @Slf4j
+@Disabled("manual run performance tet")
 class WidgetStoragePerformanceTest {
 
     @Test
@@ -46,7 +48,6 @@ class WidgetStoragePerformanceTest {
 
         computeStorage(collection, elementsNumber);
     }
-
 
     private void computeStorage(WidgetStorage storage, int elementsNumber) {
 
@@ -161,7 +162,7 @@ class WidgetStoragePerformanceTest {
 
         final WithFactorWidgetEntity entity = new WithFactorWidgetEntity();
         entity.setId(1L);
-        entity.setZIndex(z);
+        entity.setZIndexEx(z);
         entity.setX(100);
         entity.setY(200);
         entity.setModificationTime(LocalDateTime.now());

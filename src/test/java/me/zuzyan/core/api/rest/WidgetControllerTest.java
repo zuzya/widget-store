@@ -128,7 +128,7 @@ class WidgetControllerTest extends AbstractCommonTest {
     void testGetWidget() throws Exception {
 
         // Given
-        WidgetModel model = new WidgetModel();
+        WidgetModel model = buildWidget();
         final WidgetEntity widgetEntity = widgetStorageService.create(model);
 
         // When

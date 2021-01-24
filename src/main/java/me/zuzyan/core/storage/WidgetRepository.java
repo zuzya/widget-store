@@ -11,13 +11,13 @@ import me.zuzyan.core.storage.entity.WidgetEntity;
  * @author Denis Zaripov
  * @created 21.01.2021 г.
  */
-public interface WidgetRepository<W> {
+public interface WidgetRepository {
 
     WidgetEntity save(WidgetEntity entity);
 
-    Optional<W> findById(Long id);
+    Optional<WidgetEntity> findById(Long id);
 
-    Collection<W> findAll();
+    Collection<WidgetEntity> findAll();
 
     void deleteById(Long id);
 

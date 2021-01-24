@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Descrition
+ * Web application configuration
  *
  * @author Denis Zaripov
  * @created 20.01.2021 г.

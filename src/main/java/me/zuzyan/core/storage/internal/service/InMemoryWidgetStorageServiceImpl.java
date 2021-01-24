@@ -20,12 +20,12 @@ import me.zuzyan.core.storage.entity.WidgetEntity;
  * @author Denis Zaripov
  * @created 19.01.2021 г.
  */
-//@Component("inMemoryWidgetStorageService")
+@Component("inMemoryWidgetStorageService")
 @ConditionalOnMissingBean(JpaWidgetStorageServiceImpl.class)
 public class InMemoryWidgetStorageServiceImpl implements WidgetStorageService {
 
     @Autowired
-    private WidgetRepository<WidgetEntity> widgetRepository;
+    private WidgetRepository widgetRepository;
 
     @Override
     public WidgetEntity create(WidgetModel model) {

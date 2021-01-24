@@ -3,7 +3,6 @@ package me.zuzyan.core.storage.internal.repository;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,7 +18,7 @@ import me.zuzyan.core.storage.internal.WidgetStorage;
  * @created 21.01.2021 г.
  */
 @Repository
-public class InMemoryWidgetRepositoryImpl implements WidgetRepository<WidgetEntity> {
+public class InMemoryWidgetRepositoryImpl implements WidgetRepository {
 
     @Autowired
     private WidgetStorage storage;
@@ -29,8 +28,7 @@ public class InMemoryWidgetRepositoryImpl implements WidgetRepository<WidgetEnti
 
         WidgetEntity found = storage.find(entity.getId());
         if (found != null) {
-            // todo: version
-            found.setVersion(entity.getVersion() + 1);
+            found.incVersion();
             found.setModificationTime(LocalDateTime.now());
         } else {
             storage.add(entity);

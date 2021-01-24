@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.FieldError;
@@ -39,8 +38,7 @@ public class WidgetController {
     private static final String NOT_FOUND_WIDGET = "not found widget with id ";
 
     @Autowired
-    @Qualifier("inMemoryWidgetStorageService")
-    private WidgetStorageService inMemoryWidgetStorageService;
+    private WidgetStorageService widgetStorageService;
 
     @ApiOperation(value = "Getting widget by id")
     @GetMapping(value = "/widget/{id}",
@@ -54,7 +52,7 @@ public class WidgetController {
                     max = 12) //
             Long id) throws Exception {
 
-        return inMemoryWidgetStorageService.getById(id)//
+        return widgetStorageService.getById(id)//
                 .map(GetWidgetResponseV1::mapToModel)//
                 .orElseThrow(() -> new InternalErrorException(NOT_FOUND_WIDGET + id));
     }
@@ -68,7 +66,7 @@ public class WidgetController {
     @Valid @RequestBody WidgetModel request) {
 
         return CreateWidgetResponseV1.mapToModel(//
-                inMemoryWidgetStorageService.create(request));
+                widgetStorageService.create(request));
     }
 
     @ApiOperation(value = "Update widget")
@@ -79,10 +77,10 @@ public class WidgetController {
     public UpdateWidgetResponseV1 updateWidget(@ApiParam("widget data") //
     @RequestBody WidgetModel request) throws Exception {
 
-        return UpdateWidgetResponseV1.mapToModel(inMemoryWidgetStorageService
+        return UpdateWidgetResponseV1.mapToModel(widgetStorageService
                 .getById(request.getId())//
                 .map(w -> w.merge(request))//
-                .map(w -> inMemoryWidgetStorageService.save(w)).orElseThrow(
+                .map(w -> widgetStorageService.save(w)).orElseThrow(
                         () -> new InternalErrorException(NOT_FOUND_WIDGET + request.getId())));
     }
 
@@ -94,7 +92,7 @@ public class WidgetController {
     public GetAllWidgetsResponseV1 getAllWidgets() throws Exception {
 
         return new GetAllWidgetsResponseV1(//
-                inMemoryWidgetStorageService.getAll().stream()
+                widgetStorageService.getAll().stream()
                         .map(entity -> WidgetModel.mapToModel(entity, new WidgetModel()))//
                         .collect(Collectors.toList()));
     }
@@ -105,7 +103,7 @@ public class WidgetController {
     public void removeWidget(@ApiParam("widget id") //
     @PathVariable("id") Long id) {
 
-        inMemoryWidgetStorageService.remove(id);
+        widgetStorageService.remove(id);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

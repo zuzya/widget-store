@@ -1,16 +1,15 @@
+#spring properties
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
 
-# database
-db:
-  driver: org.postgresql.Driver
-  dialect: org.hibernate.dialect.PostgreSQL82Dialect
-  schema: public
-  #todo:
-  url: jdbc:postgresql://...
-  catalog: ...
+#server properties
+server:
+  shutdown: graceful
 
 # management
 management:
+
   server.port: 9273
   endpoints:
     web:
@@ -36,8 +35,19 @@ management:
           autotime:
             enabled: true
 
-# custom settings
-#storage.type: postgres
-storage.type: memory
+# database
+db:
+  driver: org.postgresql.Driver
+  dialect: org.hibernate.dialect.PostgreSQL82Dialect
+  schema: public
+  #todo:
+  url: jdbc:postgresql://...
+  catalog: ...
 
-onread.enabled: true
+# custom settings
+storage:
+  type: memory
+#  type: postgres
+  algorithm: linked
+#  algorithm: skiplist
+#  algorithm: withfactor

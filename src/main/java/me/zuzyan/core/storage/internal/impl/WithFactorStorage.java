@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicLong;
 
 import lombok.Data;
+import me.zuzyan.core.storage.internal.WidgetStorage;
 
 /**
  * Descrition
@@ -15,7 +16,7 @@ import lombok.Data;
  * @created 22.01.2021 г.
  */
 @Data
-public class WithFactorStorage {
+public class WithFactorStorage implements WidgetStorage<WithFactorWidgetEntity> {
 
     private static final AtomicLong incrementer = new AtomicLong(0);
 
@@ -34,6 +35,7 @@ public class WithFactorStorage {
         return new WithFactorStorage();
     }
 
+    @Override
     public void add(WithFactorWidgetEntity entity) {
 
         entity.setId(incrementer.addAndGet(1));
@@ -42,9 +44,9 @@ public class WithFactorStorage {
 
         WithFactorWidgetEntity floor = collection.floor(entity);
 
-        if (floor != null && floor.getZIndex().equals(entity.getZIndex())) {
+        if (floor != null && floor.getZIndexEx().equals(entity.getZIndexEx())) {
             BigDecimal delta = baseFactor;
-            entity.setZIndex(floor.getZIndex().subtract(delta));
+            entity.setZIndexEx(floor.getZIndexEx().subtract(delta));
             computeZIndex(entity, delta);
         }
 
@@ -54,9 +56,9 @@ public class WithFactorStorage {
     private void computeZIndex(WithFactorWidgetEntity entity, BigDecimal delta) {
 
         WithFactorWidgetEntity higher = collection.floor(entity);
-        if (higher != null && higher.getZIndex().equals(entity.getZIndex())) {
+        if (higher != null && higher.getZIndexEx().equals(entity.getZIndexEx())) {
             delta = delta.multiply(baseFactor);
-            entity.setZIndex(higher.getZIndex().add(delta));
+            entity.setZIndexEx(higher.getZIndexEx().add(delta));
 
             computeZIndex(entity, delta);
         }
