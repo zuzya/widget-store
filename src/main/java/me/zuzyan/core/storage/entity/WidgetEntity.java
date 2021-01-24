@@ -23,7 +23,7 @@ import me.zuzyan.core.api.models.WidgetModel;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class WidgetEntity extends AbstractEntity implements Comparable<WidgetEntity>{
+public class WidgetEntity extends AbstractEntity implements Comparable<WidgetEntity> {
 
     @Column(name = "x")
     @NotNull(message = "X coordinate is mandatory")
@@ -65,7 +65,6 @@ public class WidgetEntity extends AbstractEntity implements Comparable<WidgetEnt
     @Transient
     public void incZ() {
 
-        // todo: atomic
         this.zIndex++;
     }
 

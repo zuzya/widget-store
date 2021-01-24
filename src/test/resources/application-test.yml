@@ -8,8 +8,8 @@ spring:
 db.hbm2ddl: create
 
 storage:
-  #  type: memory
-  type: postgres
+  type: memory
+  #  type: postgres
   algorithm: linked
 #  algorithm: skiplist
 #  algorithm: withfactor

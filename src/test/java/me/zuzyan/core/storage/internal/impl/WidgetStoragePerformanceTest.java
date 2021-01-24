@@ -9,7 +9,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.function.Function;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +20,8 @@ import me.zuzyan.core.storage.internal.WidgetStorage;
  * Performance test for storage types If you want to play with JVM args you can run test from cmd.
  * JVM params provided by maven-surefire-plugin
  * <p>
- * Example run: mvn test -Dgroups=performance -Dtest=WidgetStoragePerformanceTest#testAddWithStorage -Delements=5000
+ * Example run: mvn test -Dgroups=performance
+ * -Dtest=WidgetStoragePerformanceTest#testAddWithStorage -Delements=5000
  * </p>
  *
  * @author Denis Zaripov
