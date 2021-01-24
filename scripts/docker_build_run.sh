@@ -11,7 +11,7 @@ image=${appname}:1
 
 cd ../
 #build app
-mvn clean install -DskipTests=true
+mvn clean package -DskipTests=true
 
 #build docker
 docker build --force-rm -t "$image" -f Dockerfile .

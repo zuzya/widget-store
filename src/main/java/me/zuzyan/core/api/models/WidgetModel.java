@@ -31,13 +31,16 @@ import me.zuzyan.core.storage.entity.WidgetEntity;
 public class WidgetModel implements Serializable {
 
     @ApiModelProperty("widget identifier")
+    @JsonProperty("id")
     private Long id;
 
     @ApiModelProperty("x coordinate")
+    @JsonProperty("x")
     @NotNull
     private Integer x;
 
     @ApiModelProperty("y coordinate")
+    @JsonProperty("y")
     @NotNull
     private Integer y;
 
@@ -47,16 +50,19 @@ public class WidgetModel implements Serializable {
     private Integer zIndex;
 
     @ApiModelProperty("widget width")
+    @JsonProperty("width")
     @NotNull
     @Min(1)
     private Integer width;
 
     @ApiModelProperty("widget height")
+    @JsonProperty("height")
     @NotNull
     @Min(1)
     private Integer height;
 
     @ApiModelProperty("last modification time")
+    @JsonProperty("modification_time")
     @JsonFormat(pattern = DATE_TIME_FORMAT)
     private LocalDateTime modificationTime;
 

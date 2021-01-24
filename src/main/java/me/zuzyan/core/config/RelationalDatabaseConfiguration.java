@@ -106,6 +106,6 @@ public class RelationalDatabaseConfiguration {
 
     protected String getPackagesToScan() {
 
-        return "me.zuzyan.core.store.entity";
+        return "me.zuzyan.core.storage.entity";
     }
 }

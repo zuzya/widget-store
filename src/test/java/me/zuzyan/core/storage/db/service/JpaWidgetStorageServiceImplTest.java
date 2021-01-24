@@ -55,7 +55,7 @@ class JpaWidgetStorageServiceImplTest extends PostgresTest {
         WidgetEntity w1 = createWidget(1);
         WidgetEntity w2 = createWidget(2);
         WidgetEntity w3 = createWidget(3);
-        WidgetEntity w4 = createWidget(5);
+        WidgetEntity w4 = createWidget(6);
 
         // When
         WidgetEntity control = createWidget(2);
@@ -70,7 +70,7 @@ class JpaWidgetStorageServiceImplTest extends PostgresTest {
         assertEquals(2, control.getZIndex());
         assertEquals(3, w2.getZIndex());
         assertEquals(4, w3.getZIndex());
-        assertEquals(5, w4.getZIndex());
+        assertEquals(6, w4.getZIndex());
     }
 
     @Test

@@ -40,9 +40,12 @@ db:
   driver: org.postgresql.Driver
   dialect: org.hibernate.dialect.PostgreSQL82Dialect
   schema: public
-  #todo:
-  url: jdbc:postgresql://...
-  catalog: ...
+  url: jdbc:postgresql://${db.server.name}:${db.server.port}/${db.database}
+  server:
+    name: localhost
+    port: 5432
+  database: widget-store
+  catalog: public
 
 # custom settings
 storage:

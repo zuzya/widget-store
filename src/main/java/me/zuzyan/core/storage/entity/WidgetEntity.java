@@ -1,9 +1,6 @@
 package me.zuzyan.core.storage.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -19,7 +16,9 @@ import me.zuzyan.core.api.models.WidgetModel;
  * @created 19.01.2021 г.
  */
 @Entity
-@Table(name = "widget")
+@Table(name = "widget",
+        indexes = { @Index(columnList = "z_index",
+                name = "z_index_idx") })
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)

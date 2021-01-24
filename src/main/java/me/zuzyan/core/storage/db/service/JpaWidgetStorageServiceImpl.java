@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import me.zuzyan.core.api.models.WidgetModel;
 import me.zuzyan.core.config.RelationalDatabaseConfiguration;
@@ -33,36 +35,50 @@ public class JpaWidgetStorageServiceImpl implements WidgetStorageService {
         return save(entity);
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public WidgetEntity save(WidgetEntity entity) {
+
+        Collection<WidgetEntity> others = widgetRepository.findByZIndex(entity.getZIndex());
+        final WidgetEntity saved = widgetRepository.save(entity);
+
+        moveZIndexes(others, saved);
+
+        return saved;
+    }
+
+    /**
+     * Naive algorithm for "shifting" z-indexes. Find all records greater than current and
+     * increment their z-index.
+     * <p>
+     * As improvement we can add additional field "section", that will be indicate minimum z-index
+     * of group element who ordered consecutively, i.e. without gaps. So we can select only
+     * elements with same section and increment it.
+     * </p>
+     * 
+     * @param others
+     *            records greater than current
+     * @param saved
+     *            current record
+     */
     private void moveZIndexes(Collection<WidgetEntity> others, WidgetEntity saved) {
 
         WidgetEntity prev = saved;
         boolean incremented = true;
-        for (WidgetEntity w : others) {
+        for (WidgetEntity current : others) {
 
             if (!incremented) {
                 break;
             }
 
-            if (w.getZIndex().equals(prev.getZIndex())) {
-                prev = w;
-
-                w.setZIndex(w.getZIndex() + 1);
-                widgetRepository.save(w);
+            if (current.getZIndex().equals(prev.getZIndex())) {
+                prev = current;
+                current.incZ();
+                widgetRepository.save(current);
             } else {
                 incremented = false;
             }
         }
-    }
-
-    @Override
-    public WidgetEntity save(WidgetEntity entity) {
-
-        final WidgetEntity saved = widgetRepository.save(entity);
-
-        Collection<WidgetEntity> others = widgetRepository.findByZIndex(entity.getZIndex());
-        moveZIndexes(others, saved);
-
-        return saved;
     }
 
     @Override

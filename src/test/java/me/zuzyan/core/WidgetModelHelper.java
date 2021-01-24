@@ -1,5 +1,7 @@
 package me.zuzyan.core;
 
+import java.time.LocalDateTime;
+
 import me.zuzyan.core.api.models.WidgetModel;
 
 /**
@@ -18,6 +20,8 @@ public class WidgetModelHelper {
         model.setZIndex(1);
         model.setWidth(200);
         model.setHeight(400);
+        model.setModificationTime(LocalDateTime.of(2021, 10, 10, 10, 10, 10));
+        model.setId(999L);
 
         return model;
     }

@@ -13,7 +13,7 @@ appname="widget-store"
 version="$1"
 
 cd ../
-mvn clean install -DskipTests=true
+mvn clean package -DskipTests=true
 
 docker build --force-rm -t "$appname":"$version" -f Dockerfile .
 docker tag "$appname":"$version" $registry/"$appname":"$version"

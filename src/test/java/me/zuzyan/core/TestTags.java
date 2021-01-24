@@ -10,5 +10,7 @@ public class TestTags {
 
     public static final String FAST = "fast";
 
+    public static final String POSTGRES = "postgres";
+
     public static final String PERFORMANCE = "performance";
 }
