@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Descrition
+ * Exception descriptions
  *
  * @author Denis Zaripov
  * @created 20.01.2021 г.

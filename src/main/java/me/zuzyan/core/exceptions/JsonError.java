@@ -1,7 +1,7 @@
 package me.zuzyan.core.exceptions;
 
 /**
- * Descrition
+ * Json error model
  *
  * @author Denis Zaripov
  * @created 20.01.2021 г.

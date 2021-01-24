@@ -8,7 +8,7 @@ import lombok.Data;
 import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
- * Entity for experiment with 'withfactor' algorithm
+ * Entity for experiment with 'withfactor' algorithm. Field z-index is a BigDecimal!
  *
  * @author Denis Zaripov
  * @created 19.01.2021 г.

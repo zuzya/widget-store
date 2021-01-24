@@ -3,7 +3,7 @@ package me.zuzyan.core.api.models;
 import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
- * Descrition
+ * Response for create widget operation
  *
  * @author Denis Zaripov
  * @created 20.01.2021 г.

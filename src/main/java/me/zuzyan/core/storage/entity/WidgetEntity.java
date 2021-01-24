@@ -13,7 +13,7 @@ import lombok.ToString;
 import me.zuzyan.core.api.models.WidgetModel;
 
 /**
- * Descrition
+ * Widget entity
  *
  * @author Denis Zaripov
  * @created 19.01.2021 г.
@@ -24,7 +24,7 @@ import me.zuzyan.core.api.models.WidgetModel;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class WidgetEntity extends AbstractEntity implements Comparable<WidgetEntity> {
+public class WidgetEntity extends AbstractEntity implements Comparable<WidgetEntity>{
 
     @Column(name = "x")
     @NotNull(message = "X coordinate is mandatory")

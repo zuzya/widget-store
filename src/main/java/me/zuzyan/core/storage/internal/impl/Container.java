@@ -6,7 +6,7 @@ import lombok.Data;
 import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
- * Descrition
+ * Supporting container with link to the next element in collection
  *
  * @author Denis Zaripov
  * @created 22.01.2021 г.
@@ -24,4 +24,5 @@ public class Container implements Comparable<Container> {
 
         return this.getWidget().compareTo(o.getWidget());
     }
+
 }

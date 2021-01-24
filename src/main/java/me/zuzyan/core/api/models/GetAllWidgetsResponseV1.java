@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Descrition
+ * Response for get all widgets operation
  *
  * @author Denis Zaripov
  * @created 19.01.2021 г.

@@ -1,12 +1,12 @@
 package me.zuzyan;
 
+import static me.zuzyan.core.TestTags.FAST;
 import static me.zuzyan.core.constants.Profile.TEST;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles(TEST)
+@Tag(FAST)
 abstract public class AbstractCommonTest {
 
     @Autowired

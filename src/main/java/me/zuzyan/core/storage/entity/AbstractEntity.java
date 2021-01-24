@@ -11,7 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import lombok.Data;
 
 /**
- * Descrition
+ * Base entity with common fields
  *
  * @author Denis Zaripov
  * @created 19.01.2021 г.

@@ -3,7 +3,7 @@ package me.zuzyan.core;
 import me.zuzyan.core.api.models.WidgetModel;
 
 /**
- * Descrition
+ * Widget model helper
  *
  * @author Denis Zaripov
  * @created 22.01.2021 г.

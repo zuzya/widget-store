@@ -3,13 +3,13 @@ package me.zuzyan.core.exceptions;
 import lombok.Getter;
 
 /**
- * Descrition
+ * Base checked exception
  *
  * @author Denis Zaripov
  * @created 20.01.2021 г.
  */
 @Getter
-public class AbstracetCheckedException extends Exception {
+public class BaseCheckedException extends Exception {
 
     private Integer code;
 
@@ -17,8 +17,8 @@ public class AbstracetCheckedException extends Exception {
 
     private Object data;
 
-    protected AbstracetCheckedException(Integer code, String shortMessage, Object data,
-                                     String throwMessage) {
+    protected BaseCheckedException(Integer code, String shortMessage, Object data,
+                                   String throwMessage) {
 
         super(throwMessage);
         this.code = code;
@@ -26,19 +26,19 @@ public class AbstracetCheckedException extends Exception {
         this.data = data;
     }
 
-    protected AbstracetCheckedException(Integer code, String shortMessage) {
+    protected BaseCheckedException(Integer code, String shortMessage) {
 
         super();
         this.code = code;
         this.shortMessage = shortMessage;
     }
 
-    protected AbstracetCheckedException(ExceptionConstants exConstant, Object data, String throwMessage) {
+    protected BaseCheckedException(ExceptionConstants exConstant, Object data, String throwMessage) {
 
         this(exConstant.getCode(), exConstant.getMessage(), data, throwMessage);
     }
 
-    protected AbstracetCheckedException(ExceptionConstants exConstant, String data) {
+    protected BaseCheckedException(ExceptionConstants exConstant, String data) {
 
         super();
         this.code = exConstant.getCode();
@@ -46,7 +46,7 @@ public class AbstracetCheckedException extends Exception {
         this.data = data;
     }
 
-    protected AbstracetCheckedException(ExceptionConstants exConstant, Object data) {
+    protected BaseCheckedException(ExceptionConstants exConstant, Object data) {
 
         this(exConstant, data, exConstant.getMessage());
     }

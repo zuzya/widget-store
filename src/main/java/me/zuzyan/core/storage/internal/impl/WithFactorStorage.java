@@ -10,7 +10,15 @@ import lombok.Data;
 import me.zuzyan.core.storage.internal.WidgetStorage;
 
 /**
- * Descrition
+ * WidgetStorage based on {@link ConcurrentSkipListSet}. As we need order of z-indexes - we can
+ * modify z-indexes and save not the same value. Main idea is that we can insert element in between
+ * floating point numbers indefinitely! And we don't need to move other elements.
+ * <p>
+ * Example: between 1 and 2 we can insert 1,1. between 1.1 and 1.2 we can insert 1,11 and so on...
+ * </p>
+ * <p>
+ * Limitations: works only with floating point numbers. But service requires z-index as integer :(
+ * </p>
  *
  * @author Denis Zaripov
  * @created 22.01.2021 г.
@@ -23,6 +31,9 @@ public class WithFactorStorage implements WidgetStorage<WithFactorWidgetEntity> 
     private static final ConcurrentSkipListSet<WithFactorWidgetEntity> collection =
             new ConcurrentSkipListSet<>();
 
+    /**
+     * Factor to calculate new element offset
+     */
     private BigDecimal baseFactor = new BigDecimal("0.1");
 
     private WithFactorStorage() {
@@ -45,22 +56,31 @@ public class WithFactorStorage implements WidgetStorage<WithFactorWidgetEntity> 
         WithFactorWidgetEntity floor = collection.floor(entity);
 
         if (floor != null && floor.getZIndexEx().equals(entity.getZIndexEx())) {
-            BigDecimal delta = baseFactor;
-            entity.setZIndexEx(floor.getZIndexEx().subtract(delta));
-            computeZIndex(entity, delta);
+            BigDecimal offset = baseFactor;
+            entity.setZIndexEx(floor.getZIndexEx().subtract(offset));
+            computeZIndex(entity, offset);
         }
 
         collection.add(entity);
     }
 
-    private void computeZIndex(WithFactorWidgetEntity entity, BigDecimal delta) {
+    /**
+     * Compute new z-index value. Multiply offset and baseFactor and add to current z-index value.
+     * If we have higher element with the same z-index - repeat recursively
+     * 
+     * @param current
+     *            current element
+     * @param offset
+     *            current offset
+     */
+    private void computeZIndex(WithFactorWidgetEntity current, BigDecimal offset) {
 
-        WithFactorWidgetEntity higher = collection.floor(entity);
-        if (higher != null && higher.getZIndexEx().equals(entity.getZIndexEx())) {
-            delta = delta.multiply(baseFactor);
-            entity.setZIndexEx(higher.getZIndexEx().add(delta));
+        WithFactorWidgetEntity higher = collection.floor(current);
+        if (higher != null && higher.getZIndexEx().equals(current.getZIndexEx())) {
+            offset = offset.multiply(baseFactor);
+            current.setZIndexEx(higher.getZIndexEx().add(offset));
 
-            computeZIndex(entity, delta);
+            computeZIndex(current, offset);
         }
     }
 

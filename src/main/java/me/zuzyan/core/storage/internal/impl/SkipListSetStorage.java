@@ -1,27 +1,26 @@
 package me.zuzyan.core.storage.internal.impl;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.atomic.AtomicLong;
 
 import lombok.Data;
 import me.zuzyan.core.storage.entity.WidgetEntity;
 import me.zuzyan.core.storage.internal.WidgetStorage;
 
 /**
- * Descrition
+ * WidgetStorage based on {@link ConcurrentSkipListSet}. On "add" operation - calculates the next
+ * element and increment z-index if z-indexes are the same. Calculation of next element based on
+ * {@link ConcurrentSkipListSet#higher(Object)} method.
+ * <p>
+ * Limitations: with default size of stack memory can provide approximately 8000 elements. Need to
+ * tune -Xss parameter
+ * </p>
  *
  * @author Denis Zaripov
  * @created 22.01.2021 г.
  */
 @Data
-public class SkipListSetStorage implements WidgetStorage {
-
-    private static final AtomicLong incrementer = new AtomicLong(0);
-
-    private static final ConcurrentSkipListSet<WidgetEntity> collection =
-            new ConcurrentSkipListSet<>();
+public class SkipListSetStorage extends BaseSkipListStorage {
 
     private SkipListSetStorage() {
 
@@ -42,7 +41,7 @@ public class SkipListSetStorage implements WidgetStorage {
         collection.add(entity);
 
         if (!collection.isEmpty()) {
-            moveForward(entity);
+            incrementZIndexForNext(entity);
         }
 
     }
@@ -53,7 +52,7 @@ public class SkipListSetStorage implements WidgetStorage {
      * @param current
      *            element to compare
      */
-    private void moveForward(WidgetEntity current) {
+    private void incrementZIndexForNext(WidgetEntity current) {
 
         WidgetEntity higher = collection.higher(current);
         if (higher != null && higher.getZIndex().equals(current.getZIndex())) {
@@ -61,40 +60,8 @@ public class SkipListSetStorage implements WidgetStorage {
             higher.setModificationTime(LocalDateTime.now());
             higher.incZ();
 
-            moveForward(higher);
+            incrementZIndexForNext(higher);
         }
-    }
-
-    @Override
-    public int size() {
-
-        return collection.size();
-    }
-
-    @Override
-    public WidgetEntity find(Long id) {
-
-        return collection.stream()//
-                .filter(el -> el.getId().equals(id))//
-                .findFirst().orElse(null);
-    }
-
-    @Override
-    public void delete(Long id) {
-
-        collection.removeIf(c -> c.getId().equals(id));
-    }
-
-    @Override
-    public void deleteAll() {
-
-        collection.clear();
-    }
-
-    @Override
-    public Collection<WidgetEntity> findAll() {
-
-        return collection;
     }
 
 }

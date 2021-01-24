@@ -7,7 +7,7 @@ import me.zuzyan.core.api.models.WidgetModel;
 import me.zuzyan.core.storage.entity.WidgetEntity;
 
 /**
- * Descrition
+ * Service to manage {@link WidgetEntity}
  *
  * @author Denis Zaripov
  * @created 19.01.2021 г.
