@@ -5,3 +5,10 @@ spring:
 
 #fixme: use flyway migrations for tests too
 db.hbm2ddl: create
+
+storage:
+  type: memory
+  #  type: postgres
+  algorithm: linked
+#  algorithm: skiplist
+#  algorithm: withfactor

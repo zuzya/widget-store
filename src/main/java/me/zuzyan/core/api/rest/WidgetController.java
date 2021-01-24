@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import me.zuzyan.core.api.models.*;
+import me.zuzyan.core.exceptions.ExceptionConstants;
 import me.zuzyan.core.exceptions.InternalErrorException;
 import me.zuzyan.core.exceptions.JsonError;
 import me.zuzyan.core.storage.WidgetStorageService;
@@ -42,14 +43,11 @@ public class WidgetController {
 
     @ApiOperation(value = "Getting widget by id")
     @GetMapping(value = "/widget/{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public GetWidgetResponseV1 getWidget(//
             @ApiParam("widget id") //
             @PathVariable(value = "id") //
-            @Size(min = 12,
-                    max = 12) //
             Long id) throws Exception {
 
         return widgetStorageService.getById(id)//
@@ -70,15 +68,17 @@ public class WidgetController {
     }
 
     @ApiOperation(value = "Update widget")
-    @PutMapping(value = "/widget",
+    @PutMapping(value = "/widget/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public UpdateWidgetResponseV1 updateWidget(@ApiParam("widget data") //
-    @RequestBody WidgetModel request) throws Exception {
+    public UpdateWidgetResponseV1 updateWidget(//
+            @ApiParam("widget id") //
+            @PathVariable(value = "id") Long id, //
+            @ApiParam("widget data") //
+            @RequestBody WidgetModel request) throws Exception {
 
-        return UpdateWidgetResponseV1.mapToModel(widgetStorageService
-                .getById(request.getId())//
+        return UpdateWidgetResponseV1.mapToModel(widgetStorageService.getById(id)//
                 .map(w -> w.merge(request))//
                 .map(w -> widgetStorageService.save(w)).orElseThrow(
                         () -> new InternalErrorException(NOT_FOUND_WIDGET + request.getId())));
@@ -86,10 +86,9 @@ public class WidgetController {
 
     @ApiOperation(value = "Get all widgets")
     @GetMapping(value = "/widgets",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public GetAllWidgetsResponseV1 getAllWidgets() throws Exception {
+    public GetAllWidgetsResponseV1 getAllWidgets() {
 
         return new GetAllWidgetsResponseV1(//
                 widgetStorageService.getAll().stream()
@@ -98,17 +97,17 @@ public class WidgetController {
     }
 
     @ApiOperation(value = "Remove widget by id")
-    @DeleteMapping(value = "/widget/{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void removeWidget(@ApiParam("widget id") //
+    @DeleteMapping(value = "/widget/{id}")
+    public ResponseEntity<String> removeWidget(@ApiParam("widget id") //
     @PathVariable("id") Long id) {
 
         widgetStorageService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public JsonError handleValidationExceptions(MethodArgumentNotValidException ex) {
 
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
@@ -117,7 +116,8 @@ public class WidgetController {
             errors.put(fieldName, errorMessage);
         });
 
-        return errors;
+        return new JsonError(ExceptionConstants.VALIDATION_ERROR.getCode(),
+                ExceptionConstants.VALIDATION_ERROR.getMessage(), errors);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

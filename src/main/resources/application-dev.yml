@@ -1,0 +1,7 @@
+# custom settings
+storage:
+  type: memory
+#  type: postgres
+  algorithm: linked
+#  algorithm: skiplist
+#  algorithm: withfactor

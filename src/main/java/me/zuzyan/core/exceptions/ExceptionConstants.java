@@ -13,6 +13,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ExceptionConstants {
 
+    VALIDATION_ERROR(
+            6000,
+            "Validation error"),
+
     EXTERNAL_INTEGRATION_ERROR(
             8000,
             "External integration error"),

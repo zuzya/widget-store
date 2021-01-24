@@ -100,11 +100,11 @@ class WidgetControllerTest extends AbstractCommonTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)//
                 .content(jsonMapper.writeValueAsString(request)))//
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))//
-                .andExpect(jsonPath("x").value(MUST_NOT_BE_NULL))//
-                .andExpect(jsonPath("y").value(MUST_NOT_BE_NULL))//
-                .andExpect(jsonPath("zIndex").value(MUST_NOT_BE_NULL))//
-                .andExpect(jsonPath("width").value(MUST_NOT_BE_NULL))//
-                .andExpect(jsonPath("height").value(MUST_NOT_BE_NULL));
+                .andExpect(jsonPath("$.data.x").value(MUST_NOT_BE_NULL))//
+                .andExpect(jsonPath("$.data.y").value(MUST_NOT_BE_NULL))//
+                .andExpect(jsonPath("$.data.zIndex").value(MUST_NOT_BE_NULL))//
+                .andExpect(jsonPath("$.data.width").value(MUST_NOT_BE_NULL))//
+                .andExpect(jsonPath("$.data.height").value(MUST_NOT_BE_NULL));
     }
 
     @Test
@@ -120,8 +120,8 @@ class WidgetControllerTest extends AbstractCommonTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)//
                 .content(jsonMapper.writeValueAsString(request)))//
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))//
-                .andExpect(jsonPath("width").value(MUST_BE_GREATER_THAN))//
-                .andExpect(jsonPath("height").value(MUST_BE_GREATER_THAN));
+                .andExpect(jsonPath("$.data.width").value(MUST_BE_GREATER_THAN))//
+                .andExpect(jsonPath("$.data.height").value(MUST_BE_GREATER_THAN));
     }
 
     @Test
@@ -133,8 +133,7 @@ class WidgetControllerTest extends AbstractCommonTest {
 
         // When
         mockMvc.perform(
-                MockMvcRequestBuilders.get(API_V_1_WIDGET + "/widget/{id}", widgetEntity.getId())//
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))//
+                MockMvcRequestBuilders.get(API_V_1_WIDGET + "/widget/{id}", widgetEntity.getId()))//
                 .andExpect(status().is(HttpStatus.OK.value()))//
                 .andExpect(//
                         jsonPath("$.id").value(widgetEntity.getId()));
@@ -144,8 +143,7 @@ class WidgetControllerTest extends AbstractCommonTest {
     void testGetWidgetWithEmptyParam() throws Exception {
 
         // When
-        mockMvc.perform(MockMvcRequestBuilders.get(API_V_1_WIDGET + "/widget/{id}", "123")//
-                .contentType(MediaType.APPLICATION_JSON_VALUE))//
+        mockMvc.perform(MockMvcRequestBuilders.get(API_V_1_WIDGET + "/widget/{id}", "123"))//
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))//
                 .andExpect(jsonPath("code").value(ExceptionConstants.INTERNAL_ERROR.getCode()))//
                 .andExpect(
@@ -164,7 +162,7 @@ class WidgetControllerTest extends AbstractCommonTest {
 
         // When
         final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders.put(API_V_1_WIDGET + "/widget")//
+                .perform(MockMvcRequestBuilders.put(API_V_1_WIDGET + "/widget/{id}", "1")//
                         .contentType(MediaType.APPLICATION_JSON_VALUE)//
                         .content(jsonMapper.writeValueAsString(toModification)))//
                 .andExpect(status().is(HttpStatus.OK.value()))//
@@ -191,10 +189,9 @@ class WidgetControllerTest extends AbstractCommonTest {
         assertFalse(widgetStorageService.getAll().isEmpty());
 
         // When
-        mockMvc.perform(MockMvcRequestBuilders
-                .delete(API_V_1_WIDGET + "/widget/{id}", widgetEntity.getId())//
-                .contentType(MediaType.APPLICATION_JSON_VALUE))//
-                .andExpect(status().is(HttpStatus.OK.value()));
+        mockMvc.perform(MockMvcRequestBuilders.delete(API_V_1_WIDGET + "/widget/{id}",
+                widgetEntity.getId()))//
+                .andExpect(status().is(HttpStatus.NO_CONTENT.value()));
 
         // Then
         assertTrue(widgetStorageService.getAll().isEmpty());
@@ -210,11 +207,10 @@ class WidgetControllerTest extends AbstractCommonTest {
         assertEquals(2, entities.size());
 
         // When
-        final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders.get(API_V_1_WIDGET + "/widgets")//
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))//
-                .andExpect(status().is(HttpStatus.OK.value()))//
-                .andReturn();
+        final MvcResult mvcResult =
+                mockMvc.perform(MockMvcRequestBuilders.get(API_V_1_WIDGET + "/widgets"))//
+                        .andExpect(status().is(HttpStatus.OK.value()))//
+                        .andReturn();
 
         // Then
         final GetAllWidgetsResponseV1 responseV1 = jsonMapper.readValue(
