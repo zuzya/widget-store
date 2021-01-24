@@ -11,9 +11,10 @@ documentation: [/swagger-ui/index.html](localhost:8080/swagger-ui/index.html)
 
 ## Run service
 
+For local run use command: mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
 Use scripts in ./scripts folder:
 
-- **run.sh** - launches service locally
 - **docker_build_run.sh** - build docker image and launches it
 - **docker_run.sh** - pulls an image from Dockerhub and launches it
 - **push.sh** - build docker image and push to Dockerhub

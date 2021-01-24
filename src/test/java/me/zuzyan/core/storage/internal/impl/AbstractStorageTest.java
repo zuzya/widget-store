@@ -1,8 +1,10 @@
 package me.zuzyan.core.storage.internal.impl;
 
+import static me.zuzyan.core.TestTags.FAST;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import me.zuzyan.core.storage.entity.WidgetEntity;
@@ -14,6 +16,7 @@ import me.zuzyan.core.storage.internal.WidgetStorage;
  * @author Denis Zaripov
  * @created 22.01.2021 г.
  */
+@Tag(FAST)
 abstract class AbstractStorageTest {
 
     private WidgetStorage storage = getStorage();

@@ -11,7 +11,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -52,7 +51,6 @@ class WidgetControllerTest extends AbstractCommonTest {
     private MockMvc mockMvc;
 
     @Autowired
-    @Qualifier("inMemoryWidgetStorageService")
     private WidgetStorageService widgetStorageService;
 
     @BeforeEach
@@ -162,7 +160,8 @@ class WidgetControllerTest extends AbstractCommonTest {
 
         // When
         final MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders.put(API_V_1_WIDGET + "/widget/{id}", "1")//
+                .perform(MockMvcRequestBuilders
+                        .put(API_V_1_WIDGET + "/widget/{id}", widgetEntity.getId())//
                         .contentType(MediaType.APPLICATION_JSON_VALUE)//
                         .content(jsonMapper.writeValueAsString(toModification)))//
                 .andExpect(status().is(HttpStatus.OK.value()))//
