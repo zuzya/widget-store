@@ -13,4 +13,8 @@ public class TestTags {
     public static final String POSTGRES = "postgres";
 
     public static final String PERFORMANCE = "performance";
+
+    public static final String SERIALIZATION = "serialization";
+
+
 }

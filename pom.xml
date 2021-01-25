@@ -18,7 +18,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
-        <groups>fast</groups>
+        <groups>fast,serialization</groups>
         <excluded-groups>performance</excluded-groups>
 
         <jackson.version>2.9.6</jackson.version>
@@ -69,7 +69,7 @@
                     <!-- include tags -->
                     <groups>${groups}</groups>
                     <!-- exclude tags -->
-                    <!--                    <excludedGroups>${excluded-groups}</excludedGroups>-->
+                    <!--<excludedGroups>${excluded-groups}</excludedGroups>-->
                 </configuration>
                 <executions>
                     <execution>
