@@ -2,8 +2,13 @@
 
 Simple spring-boot based service with REST api.
 
-Service provide basic CRUD functionality for widgets managing. Use follow path for API
-documentation: [/swagger-ui/index.html](localhost:8080/swagger-ui/index.html)
+Service provide basic CRUD functionality for widgets managing.
+
+Available endpoints:
+- localhost:8080/api/v1 - service api
+- localhost:8080/swagger-ui/index.html - swagger documentation
+- localhost:9273/health - service healthcheck
+- localhost:9273/metrics - application metrics in prometheus format
 
 
 
@@ -11,7 +16,11 @@ documentation: [/swagger-ui/index.html](localhost:8080/swagger-ui/index.html)
 
 ## Run service
 
-For local run use command: mvn spring-boot:run -Dspring-boot.run.profiles=dev
+For local run use command: 
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+````
 
 Use scripts in ./scripts folder:
 
